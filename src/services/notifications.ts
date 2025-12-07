@@ -1,4 +1,4 @@
-import { NotificationType } from "../src/types/notifications";
+import { NotificationType } from "../components/NotificationCard";
 
 export type Notification = {
   id: string;
@@ -8,7 +8,7 @@ export type Notification = {
   timeAgo: string;
 };
 
-
+// Notification data
 export async function fetchNotifications(): Promise<Notification[]> {
   await delay(400);
 
@@ -17,14 +17,16 @@ export async function fetchNotifications(): Promise<Notification[]> {
       id: "1",
       type: "invoice",
       title: "Yeni Fatura Oluşturuldu",
-      description: "Fatura #INV-2023-0105 müşteriye gönderildi. Toplam tutar: 1.500 TL.",
+      description:
+        "Fatura #INV-2023-0105 müşteriye gönderildi. Toplam tutar: 1.500 TL.",
       timeAgo: "10 dakika önce",
     },
     {
       id: "2",
       type: "stockLow",
       title: "Düşük Stok Uyarısı",
-      description: "Ürün 'Laptop X1' stok seviyesi kritik eşiğin altında. Mevcut stok: 5 adet.",
+      description:
+        "Ürün 'Laptop X1' stok seviyesi kritik eşiğin altında. Mevcut stok: 5 adet.",
       timeAgo: "30 dakika önce",
     },
     {
@@ -38,7 +40,8 @@ export async function fetchNotifications(): Promise<Notification[]> {
       id: "4",
       type: "paymentLate",
       title: "Gecikmiş Fatura Ödemesi",
-      description: "Fatura #INV-2023-0099 için ödeme vadesi 3 gün önce doldu. Müşteri: A. Şirketi.",
+      description:
+        "Fatura #INV-2023-0099 için ödeme vadesi 3 gün önce doldu. Müşteri: A. Şirketi.",
       timeAgo: "2 saat önce",
     },
     {

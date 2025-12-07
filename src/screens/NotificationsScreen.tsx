@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NotificationCard } from "../components/NotificationCard";
-import { Notification, fetchNotifications } from "../../services/notifications";
+import { Notification, fetchNotifications } from "../services/notifications";
 
 export default function NotificationsScreen() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -62,7 +62,7 @@ export default function NotificationsScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={["top"]}>
+    <View style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.sectionTitle}>BUGÜN</Text>
 
@@ -83,7 +83,7 @@ export default function NotificationsScreen() {
           }
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

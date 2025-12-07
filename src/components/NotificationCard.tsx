@@ -1,7 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import { NotificationType } from "../types/notifications";
+
+export type NotificationType =
+  | "invoice"
+  | "stockLow"
+  | "approval"
+  | "paymentLate"
+  | "stockUpdate";
 
 type NotificationCardProps = {
   title: string;
@@ -36,6 +42,7 @@ export const NotificationCard = React.memo(function NotificationCard({
   );
 });
 
+// Notification visuals
 const visualsMap: Record<
   NotificationType | "default",
   { iconBg: string; icon: React.ReactElement }
