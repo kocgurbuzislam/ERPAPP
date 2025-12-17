@@ -1,0 +1,42 @@
+export const MOCK_DATA = {
+  me: {
+    id: 'user_123',
+    email: 'iso@erpapp.com',
+    fullName: 'Ismail Kullanici',
+    avatarUrl: 'https://i.pravatar.cc/150?u=iso',
+    role: 'ADMIN',
+    __typename: 'User',
+  },
+  notifications: [
+    {
+      id: 'notif_1',
+      title: 'Satin alma onayi',
+      description: '#PO-2024-001 nolu siparis onayinizi bekliyor.',
+      type: 'APPROVAL_REQUIRED',
+      createdAt: new Date().toISOString(),
+      timeAgo: '2 saat once',
+      isRead: false,
+      __typename: 'Notification',
+    },
+    {
+      id: 'notif_2',
+      title: 'Stok uyarisi',
+      description: "Laptop stogu kritik seviyenin altina dustu (5 adet).",
+      type: 'WARNING',
+      createdAt: new Date(Date.now() - 3600000 * 5).toISOString(),
+      timeAgo: '5 saat once',
+      isRead: true,
+      __typename: 'Notification',
+    },
+    {
+      id: 'notif_3',
+      title: 'Yeni belge eklendi',
+      description: 'Finans departmani ocak ayi butce raporunu yukledi.',
+      type: 'DOCUMENT_NEW',
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      timeAgo: '1 gun once',
+      isRead: false,
+      __typename: 'Notification',
+    },
+  ],
+};

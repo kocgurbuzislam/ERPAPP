@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -6,56 +6,51 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { NotificationCard } from "../components/NotificationCard";
-import { Notification, fetchNotifications } from "../services/notifications";
+import { useQuery } from '@apollo/client';
+import { GET_NOTIFICATIONS } from "../graphql/queries";
 
-export default function NotificationsScreen() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function NotificationsScreen({ navigation }: any) {
+  const { data, loading, error, refetch } = useQuery(GET_NOTIFICATIONS);
   const [refreshing, setRefreshing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const loadNotifications = useCallback(async () => {
+  const notifications = (data as any)?.notifications || [];
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
     try {
-      setError(null);
-      const data = await fetchNotifications();
-      setNotifications(data);
-    } catch (err) {
-      setError("Bildirimler alınırken bir hata oluştu. Lütfen tekrar deneyin.");
+      await refetch();
     } finally {
-      setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  }, [refetch]);
 
-  useEffect(() => {
-    loadNotifications();
-  }, [loadNotifications]);
+  const handleNotificationPress = (item: any) => {
+    navigation.navigate('DocumentPreview', { documentId: item.id });
+  };
 
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    loadNotifications();
-  }, [loadNotifications]);
-
-  const renderItem = useCallback(({ item }: { item: Notification }) => {
+  const renderItem = useCallback(({ item }: { item: any }) => {
     return (
-      <NotificationCard
-        type={item.type}
-        title={item.title}
-        description={item.description}
-        timeAgo={item.timeAgo}
-      />
+      <TouchableOpacity onPress={() => handleNotificationPress(item)} activeOpacity={0.7}>
+        <NotificationCard
+          type={item.type}
+          title={item.title}
+          description={item.description}
+          timeAgo={item.timeAgo || 'Az once'}
+        />
+      </TouchableOpacity>
     );
   }, []);
 
-  if (loading) {
+  if (loading && !refreshing) {
     return (
       <SafeAreaView style={styles.safeArea} edges={["top"]}>
         <View style={styles.centered}>
           <ActivityIndicator size="small" color="#3B6FE8" />
-          <Text style={styles.loadingText}>Bildirimler yükleniyor...</Text>
+          <Text style={styles.loadingText}>Bildirimler yukleniyor...</Text>
         </View>
       </SafeAreaView>
     );
@@ -64,24 +59,31 @@ export default function NotificationsScreen() {
   return (
     <View style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.sectionTitle}>BUGÜN</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <Text style={styles.sectionTitle}>BUGUN</Text>
+        </View>
 
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
-        <FlatList
-          data={notifications}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContent}
-          ItemSeparatorComponent={() => <View style={styles.separator} />}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>Gösterilecek bildirim yok.</Text>
-          }
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        />
+        {error ? (
+          <View style={styles.centered}>
+            <Text style={styles.errorText}>Hata: {error.message}</Text>
+            <Text onPress={() => refetch()} style={{ color: '#3B6FE8', marginTop: 10 }}>Tekrar Dene</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={notifications}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.listContent}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>Gosterilecek bildirim yok.</Text>
+            }
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        )}
       </View>
     </View>
   );

@@ -8,48 +8,44 @@ export type Notification = {
   timeAgo: string;
 };
 
-// Notification data
 export async function fetchNotifications(): Promise<Notification[]> {
   await delay(400);
 
   return [
     {
       id: "1",
-      type: "invoice",
-      title: "Yeni Fatura Oluşturuldu",
-      description:
-        "Fatura #INV-2023-0105 müşteriye gönderildi. Toplam tutar: 1.500 TL.",
-      timeAgo: "10 dakika önce",
+      type: "INVOICE",
+      title: "Yeni fatura olusturuldu",
+      description: "Fatura #INV-2023-0105 musteriden onay bekliyor. Toplam: 1.500 TL.",
+      timeAgo: "10 dakika once",
     },
     {
       id: "2",
-      type: "stockLow",
-      title: "Düşük Stok Uyarısı",
-      description:
-        "Ürün 'Laptop X1' stok seviyesi kritik eşiğin altında. Mevcut stok: 5 adet.",
-      timeAgo: "30 dakika önce",
+      type: "STOCK_LOW",
+      title: "Dusuk stok uyarisi",
+      description: "Urun 'Laptop X1' stok seviyesi kritik: 5 adet kaldi.",
+      timeAgo: "30 dakika once",
     },
     {
       id: "3",
-      type: "approval",
-      title: "Onay Bekleyen Harcama Talebi",
-      description: "Çalışan T. Kara'dan 250 TL'lik seyahat harcaması onay bekliyor.",
-      timeAgo: "1 saat önce",
+      type: "APPROVAL_REQUIRED",
+      title: "Onay bekleyen harcama",
+      description: "Calisan T. Kara'nin 250 TL seyahat harcama talebi onay bekliyor.",
+      timeAgo: "1 saat once",
     },
     {
       id: "4",
-      type: "paymentLate",
-      title: "Gecikmiş Fatura Ödemesi",
-      description:
-        "Fatura #INV-2023-0099 için ödeme vadesi 3 gün önce doldu. Müşteri: A. Şirketi.",
-      timeAgo: "2 saat önce",
+      type: "PAYMENT_LATE",
+      title: "Gecikmis fatura odemesi",
+      description: "Fatura #INV-2023-0099 icin vade 3 gun once doldu. Musteri: A Sirketi.",
+      timeAgo: "2 saat once",
     },
     {
       id: "5",
-      type: "stockUpdate",
-      title: "Stok Güncellemesi Başarılı",
-      description: "Ürün 'Telefon Kılıfı Z' için 100 adet yeni stok girişi yapıldı.",
-      timeAgo: "5 dakika önce",
+      type: "STOCK_UPDATE",
+      title: "Stok guncellemesi",
+      description: "Urun 'Telefon Kilif Z' icin 100 adet yeni stok girisi yapildi.",
+      timeAgo: "5 dakika once",
     },
   ];
 }

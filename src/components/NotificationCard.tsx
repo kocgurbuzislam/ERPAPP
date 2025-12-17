@@ -3,11 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 
 export type NotificationType =
-  | "invoice"
-  | "stockLow"
-  | "approval"
-  | "paymentLate"
-  | "stockUpdate";
+  | "INVOICE"
+  | "STOCK_LOW"
+  | "APPROVAL_REQUIRED"
+  | "PAYMENT_LATE"
+  | "STOCK_UPDATE"
+  | "DOCUMENT_NEW"
+  | "WARNING";
 
 type NotificationCardProps = {
   title: string;
@@ -47,25 +49,33 @@ const visualsMap: Record<
   NotificationType | "default",
   { iconBg: string; icon: React.ReactElement }
 > = {
-  invoice: {
+  INVOICE: {
     iconBg: "#E7F0FF",
     icon: <Ionicons name="document-text-outline" size={22} color="#3B6FE8" />,
   },
-  stockLow: {
+  STOCK_LOW: {
     iconBg: "#FFF7D6",
     icon: <MaterialIcons name="warning-amber" size={22} color="#E6B200" />,
   },
-  approval: {
+  APPROVAL_REQUIRED: {
     iconBg: "#E5F8EB",
     icon: <Ionicons name="checkmark-circle-outline" size={22} color="#32A85B" />,
   },
-  paymentLate: {
+  PAYMENT_LATE: {
     iconBg: "#FDE7E7",
     icon: <Ionicons name="alert-circle-outline" size={22} color="#D64545" />,
   },
-  stockUpdate: {
+  STOCK_UPDATE: {
     iconBg: "#E5F8F5",
     icon: <Ionicons name="trending-up-outline" size={22} color="#2FB0A3" />,
+  },
+  DOCUMENT_NEW: {
+    iconBg: "#E7F0FF",
+    icon: <Ionicons name="document-outline" size={22} color="#3B6FE8" />,
+  },
+  WARNING: {
+    iconBg: "#FFF7D6",
+    icon: <MaterialIcons name="warning-amber" size={22} color="#E6B200" />,
   },
   default: {
     iconBg: "#ECEFF2",
